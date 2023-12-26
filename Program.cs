@@ -1,5 +1,7 @@
 ﻿//MAIN***
 
+using tic_tac_toe;
+
 bool checkWin = false;
 
 int menuInput = MainMenu();
@@ -49,19 +51,33 @@ static void DisplayInstructions(){
     Console.ReadKey();
 }
 
-static void RunGame(bool checkWin){
-    while(checkWin == false){
+static void RunGame(){
+    Game myGame = new Game(false);
+
+    while(myGame.GetCheckWin() == false){
+        myGame.DisplayBoard();
+
+        Random random = new Random();
+        int firstTurn = random.Next(2);
         
+        while(myGame.GetCheckWin() == false){ //TODO add fix for when game ends between turns
+            if(firstTurn == 0){
+                myGame.DisplayBoard();
+                myGame.PlayerTurn();
+                myGame.DisplayBoard();
+                myGame.ComTurn();
+            }
+            else{
+                myGame.DisplayBoard();
+                myGame.ComTurn();
+                myGame.DisplayBoard();
+                myGame.PlayerTurn();
+            }
+        }
     }
 }
 
-static void DisplayBoard(){
-    Console.Clear();
-    System.Console.WriteLine("  A   B   C");
-    System.Console.WriteLine("1 ___|___|___");
-    System.Console.WriteLine("2 ___|___|___");
-    System.Console.WriteLine("3    |   |   ");
-}
+
 
 static void Error(string message){
     Console.ForegroundColor = ConsoleColor.Red;
